@@ -15,6 +15,7 @@ const projects = defineCollection({
     title: z.string(),
     description: z.string(),
     tags: z.array(z.string()),
+    category: z.enum(['professional', 'personal']).default('personal'),
     media: media.optional(),
     githubUrl: z.url().optional(),
     featured: z.boolean().default(false),

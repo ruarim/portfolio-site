@@ -114,9 +114,19 @@ hr {
 	line-height: 1.45;
 }
 
+.work-header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	gap: 1rem;
+	margin-bottom: 1.5rem;
+}
+
 .section-title {
-	display: inline-block;
-	margin: 0 0 1.5rem;
+	display: inline-flex;
+	align-items: center;
+	min-height: 2.25rem;
+	margin: 0;
 	padding: 0.35rem 0.6rem;
 	background: var(--black);
 	color: var(--white);
@@ -124,6 +134,45 @@ hr {
 	font-size: 0.72rem;
 	letter-spacing: 0.12em;
 	text-transform: uppercase;
+}
+
+.tabs {
+	display: flex;
+	width: fit-content;
+	border: var(--line);
+}
+
+.tab {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 2.25rem;
+	padding: 0.45rem 0.8rem;
+	border: 0;
+	border-right: var(--line);
+	background: var(--white);
+	color: var(--black);
+	font-family: var(--mono);
+	font-size: 0.72rem;
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+.tab:last-child {
+	border-right: 0;
+}
+
+.tab:hover,
+.tab[aria-selected='true'] {
+	background: var(--black);
+	color: var(--white);
+}
+
+.tab-panel {
+	margin: 0;
 }
 
 .project {

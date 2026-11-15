@@ -2,6 +2,7 @@
 title: "Auracle"
 description: "Cross-platform desktop app for private, fully offline semantic audio search."
 tags: ["Tauri", "Rust", "React", "TypeScript", "ONNX", "SQLite", "Python"]
+category: personal
 featured: true
 date: 2026-05-15
 githubUrl: https://github.com/ruarim/auracle/

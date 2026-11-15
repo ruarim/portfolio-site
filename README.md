@@ -26,6 +26,7 @@ Create a Markdown file in `src/content/projects/` with the following frontmatter
 title: "Project title"
 description: "Short project summary."
 tags: ["TypeScript", "Astro"]
+category: personal # or "professional"
 githubUrl: "https://github.com/username/project"
 featured: true
 date: 2026-01-15
@@ -36,8 +37,8 @@ date: 2026-01-15
 Project case study content goes here.
 ```
 
-The collection schema is defined in `src/content.config.ts`. Projects are listed on the
-homepage and rendered at `/projects/<id>/`.
+The collection schema is defined in `src/content.config.ts`. Projects are grouped into
+Professional and Personal tabs on the homepage and rendered at `/projects/<id>/`.
 
 ## Project media
 

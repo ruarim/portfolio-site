@@ -1,8 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
-import GitHubLink from '../components/GitHubLink.astro';
+import ProjectCard from '../components/ProjectCard.astro';
 import Layout from '../layouts/Layout.astro';
-import { withBase } from '../lib/paths';
 
 const projects = (await getCollection('projects')).sort((a, b) => {
 	if (a.data.featured !== b.data.featured) {
@@ -11,47 +10,123 @@ const projects = (await getCollection('projects')).sort((a, b) => {
 
 	return b.data.date.getTime() - a.data.date.getTime();
 });
+
+const professionalProjects = projects.filter(
+	(project) => project.data.category === 'professional',
+);
+const personalProjects = projects.filter((project) => project.data.category === 'personal');
 ---
 
 <Layout title="Portfolio" description="Selected projects and case studies.">
 	<main>
 		<header class="hero">
 			<p class="eyebrow">Portfolio</p>
-			<h1>Ruari Molyneux</h1>
+			<h1>Hello, I'm Ruari Molyneux</h1>
 			<p>
-				A Software Engineer specialising in audio applications. I build tools in close collaboration with the people who use them, from 5 Live editors to hard-of-hearing users. 
+				A Software Engineer specialising in audio applications. I build tools in close collaboration with the people who use them, from journalists to hard-of-hearing users. 
 				Here you will find a selection of my work.
 			</p>
 		</header>
 		<section aria-labelledby="work-heading">
-			<h2 class="section-title" id="work-heading">Selected Work</h2>
-			{projects.map((project) => (
-				<article class:list={['project', { featured: project.data.featured }]}>
-					<div class="title-row">
-						<h2>
-							<a href={withBase(`/projects/${project.id}/`)}>{project.data.title}</a>
-						</h2>
-						{project.data.githubUrl && (
-							<GitHubLink href={project.data.githubUrl} label={project.data.title} />
-						)}
-					</div>
-					<p>{project.data.description}</p>
-					<p class="meta">
-						<time datetime={project.data.date.toISOString()}>
-							{project.data.date.toLocaleDateString('en', {
-								year: 'numeric',
-								month: 'long',
-								day: 'numeric',
-							})}
-						</time>
-					</p>
-					<ul class="tags">
-						{project.data.tags.map((tag) => (
-							<li>{tag}</li>
-						))}
-					</ul>
-				</article>
-			))}
+			<div class="work-header">
+				<h2 class="section-title" id="work-heading">Selected Work</h2>
+				<div class="tabs" role="tablist" aria-label="Project categories">
+					<button
+						class="tab"
+						id="tab-professional"
+						role="tab"
+						aria-selected="true"
+						aria-controls="panel-professional"
+						tabindex="0"
+					>
+						Professional
+					</button>
+					<button
+						class="tab"
+						id="tab-personal"
+						role="tab"
+						aria-selected="false"
+						aria-controls="panel-personal"
+						tabindex="-1"
+					>
+						Personal
+					</button>
+				</div>
+			</div>
+			<div
+				class="tab-panel"
+				id="panel-professional"
+				role="tabpanel"
+				aria-labelledby="tab-professional"
+				tabindex="0"
+			>
+				{professionalProjects.map((project) => <ProjectCard project={project} />)}
+			</div>
+			<div
+				class="tab-panel"
+				id="panel-personal"
+				role="tabpanel"
+				aria-labelledby="tab-personal"
+				tabindex="0"
+				hidden
+			>
+				{personalProjects.map((project) => <ProjectCard project={project} />)}
+			</div>
+			<noscript>
+				<style>
+					[role='tablist'] {
+						display: none;
+					}
+
+					[role='tabpanel'][hidden] {
+						display: block;
+					}
+				</style>
+			</noscript>
 		</section>
 	</main>
 </Layout>
+
+<script>
+	const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+
+	function activate(tab: HTMLButtonElement, focus = false) {
+		for (const current of tabs) {
+			const selected = current === tab;
+			const panel = document.getElementById(current.getAttribute('aria-controls') ?? '');
+
+			current.setAttribute('aria-selected', String(selected));
+			current.tabIndex = selected ? 0 : -1;
+
+			if (panel) {
+				panel.hidden = !selected;
+			}
+		}
+
+		if (focus) {
+			tab.focus();
+		}
+	}
+
+	tabs.forEach((tab, index) => {
+		tab.addEventListener('click', () => activate(tab));
+		tab.addEventListener('keydown', (event) => {
+			let nextIndex: number | null = null;
+
+			if (event.key === 'ArrowRight') {
+				nextIndex = (index + 1) % tabs.length;
+			} else if (event.key === 'ArrowLeft') {
+				nextIndex = (index - 1 + tabs.length) % tabs.length;
+			} else if (event.key === 'Home') {
+				nextIndex = 0;
+			} else if (event.key === 'End') {
+				nextIndex = tabs.length - 1;
+			}
+
+			if (nextIndex !== null) {
+				event.preventDefault();
+				activate(tabs[nextIndex], true);
+			}
+		});
+	});
+</script>
