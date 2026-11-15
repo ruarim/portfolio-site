@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import GitHubLink from '../components/GitHubLink.astro';
+import Layout from '../layouts/Layout.astro';
+import { withBase } from '../lib/paths';
+
+const projects = (await getCollection('projects')).sort((a, b) => {
+	if (a.data.featured !== b.data.featured) {
+		return a.data.featured ? -1 : 1;
+	}
+
+	return b.data.date.getTime() - a.data.date.getTime();
+});
+---
+
+<Layout title="Portfolio" description="Selected projects and case studies.">
+	<main>
+		<h1>Portfolio</h1>
+		{projects.map((project) => (
+			<article class="project">
+				<div class="title-row">
+					<h2>
+						<a href={withBase(`/projects/${project.id}/`)}>{project.data.title}</a>
+					</h2>
+					{project.data.githubUrl && (
+						<GitHubLink href={project.data.githubUrl} label={project.data.title} />
+					)}
+				</div>
+				<p>{project.data.description}</p>
+				<p class="meta">
+					<time datetime={project.data.date.toISOString()}>
+						{project.data.date.toLocaleDateString('en', {
+							year: 'numeric',
+							month: 'long',
+							day: 'numeric',
+						})}
+					</time>
+				</p>
+				<ul class="tags">
+					{project.data.tags.map((tag) => (
+						<li>{tag}</li>
+					))}
+				</ul>
+			</article>
+		))}
+	</main>
+</Layout>

@@ -1,0 +1,75 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import GitHubLink from '../../components/GitHubLink.astro';
+import Layout from '../../layouts/Layout.astro';
+import { resolveMediaSrc, withBase } from '../../lib/paths';
+
+export async function getStaticPaths() {
+	const projects = await getCollection('projects');
+
+	return projects.map((project) => ({
+		params: { id: project.id },
+		props: { project },
+	}));
+}
+
+interface Props {
+	project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<Layout title={`${project.data.title} | Portfolio`} description={project.data.description}>
+	<main>
+		<article>
+			<div class="title-row">
+				<h1>{project.data.title}</h1>
+				{project.data.githubUrl && (
+					<GitHubLink href={project.data.githubUrl} label={project.data.title} />
+				)}
+			</div>
+			<p>{project.data.description}</p>
+			<p class="meta">
+				<time datetime={project.data.date.toISOString()}>
+					{project.data.date.toLocaleDateString('en', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric',
+					})}
+				</time>
+			</p>
+			<ul class="tags">
+				{project.data.tags.map((tag) => (
+					<li>{tag}</li>
+				))}
+			</ul>
+			{project.data.media && (
+				<section class="media">
+					<h2>Demo</h2>
+					<figure>
+						{project.data.media.type === 'image' ? (
+							<img
+								src={resolveMediaSrc(project.data.media.src)}
+								alt={project.data.media.alt ?? project.data.title}
+								loading="lazy"
+							/>
+						) : (
+							<video controls preload="metadata" src={resolveMediaSrc(project.data.media.src)}>
+								Your browser does not support the video tag.
+							</video>
+						)}
+						{project.data.media.caption && (
+							<figcaption>{project.data.media.caption}</figcaption>
+						)}
+					</figure>
+				</section>
+			)}
+			<div class="prose">
+				<Content />
+			</div>
+		</article>
+	</main>
+</Layout>
