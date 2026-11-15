@@ -15,33 +15,43 @@ const projects = (await getCollection('projects')).sort((a, b) => {
 
 <Layout title="Portfolio" description="Selected projects and case studies.">
 	<main>
-		<h1>Portfolio</h1>
-		{projects.map((project) => (
-			<article class="project">
-				<div class="title-row">
-					<h2>
-						<a href={withBase(`/projects/${project.id}/`)}>{project.data.title}</a>
-					</h2>
-					{project.data.githubUrl && (
-						<GitHubLink href={project.data.githubUrl} label={project.data.title} />
-					)}
-				</div>
-				<p>{project.data.description}</p>
-				<p class="meta">
-					<time datetime={project.data.date.toISOString()}>
-						{project.data.date.toLocaleDateString('en', {
-							year: 'numeric',
-							month: 'long',
-							day: 'numeric',
-						})}
-					</time>
-				</p>
-				<ul class="tags">
-					{project.data.tags.map((tag) => (
-						<li>{tag}</li>
-					))}
-				</ul>
-			</article>
-		))}
+		<header class="hero">
+			<p class="eyebrow">Portfolio</p>
+			<h1>Ruari Molyneux</h1>
+			<p>
+				A Software Engineer specialising in audio applications. I build tools in close collaboration with the people who use them, from 5 Live editors to hard-of-hearing users. 
+				Here you will find a selection of my work.
+			</p>
+		</header>
+		<section aria-labelledby="work-heading">
+			<h2 class="section-title" id="work-heading">Selected Work</h2>
+			{projects.map((project) => (
+				<article class:list={['project', { featured: project.data.featured }]}>
+					<div class="title-row">
+						<h2>
+							<a href={withBase(`/projects/${project.id}/`)}>{project.data.title}</a>
+						</h2>
+						{project.data.githubUrl && (
+							<GitHubLink href={project.data.githubUrl} label={project.data.title} />
+						)}
+					</div>
+					<p>{project.data.description}</p>
+					<p class="meta">
+						<time datetime={project.data.date.toISOString()}>
+							{project.data.date.toLocaleDateString('en', {
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric',
+							})}
+						</time>
+					</p>
+					<ul class="tags">
+						{project.data.tags.map((tag) => (
+							<li>{tag}</li>
+						))}
+					</ul>
+				</article>
+			))}
+		</section>
 	</main>
 </Layout>

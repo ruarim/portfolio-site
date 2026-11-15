@@ -24,28 +24,30 @@ const { Content } = await render(project);
 
 <Layout title={`${project.data.title} | Portfolio`} description={project.data.description}>
 	<main>
-		<article>
-			<div class="title-row">
-				<h1>{project.data.title}</h1>
-				{project.data.githubUrl && (
-					<GitHubLink href={project.data.githubUrl} label={project.data.title} />
-				)}
-			</div>
-			<p>{project.data.description}</p>
-			<p class="meta">
-				<time datetime={project.data.date.toISOString()}>
-					{project.data.date.toLocaleDateString('en', {
-						year: 'numeric',
-						month: 'long',
-						day: 'numeric',
-					})}
-				</time>
-			</p>
-			<ul class="tags">
-				{project.data.tags.map((tag) => (
-					<li>{tag}</li>
-				))}
-			</ul>
+		<article class="project-detail">
+			<header class="project-header">
+				<div class="title-row">
+					<h1>{project.data.title}</h1>
+					{project.data.githubUrl && (
+						<GitHubLink href={project.data.githubUrl} label={project.data.title} />
+					)}
+				</div>
+				<p>{project.data.description}</p>
+				<p class="meta">
+					<time datetime={project.data.date.toISOString()}>
+						{project.data.date.toLocaleDateString('en', {
+							year: 'numeric',
+							month: 'long',
+							day: 'numeric',
+						})}
+					</time>
+				</p>
+				<ul class="tags">
+					{project.data.tags.map((tag) => (
+						<li>{tag}</li>
+					))}
+				</ul>
+			</header>
 			{project.data.media && (
 				<section class="media">
 					<h2>Demo</h2>
