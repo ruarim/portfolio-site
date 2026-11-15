@@ -20,57 +20,57 @@ interface Props {
 
 const { project } = Astro.props;
 const { Content } = await render(project);
+const date = project.data.date.toISOString().slice(0, 7).replace('-', '.');
 ---
 
 <Layout title={`${project.data.title} | Portfolio`} description={project.data.description}>
 	<main>
 		<article class="project-detail">
 			<header class="project-header">
-				<div class="title-row">
-					<h1>{project.data.title}</h1>
-					{project.data.githubUrl && (
-						<GitHubLink href={project.data.githubUrl} label={project.data.title} />
-					)}
+				<div class="wrap">
+					<div class="detail-top">
+						<a class="back-link" href={withBase('/')}>← Index</a>
+						<p class="micro detail-meta">{project.data.category} / {date}</p>
+					</div>
+					<div class="title-row">
+						<h1>{project.data.title}</h1>
+						{project.data.githubUrl && (
+							<GitHubLink href={project.data.githubUrl} label={project.data.title} />
+						)}
+					</div>
+					<p class="detail-desc">{project.data.description}</p>
+					<ul class="tags">
+						{project.data.tags.map((tag) => (
+							<li>{tag}</li>
+						))}
+					</ul>
 				</div>
-				<p>{project.data.description}</p>
-				<p class="meta">
-					<time datetime={project.data.date.toISOString()}>
-						{project.data.date.toLocaleDateString('en', {
-							year: 'numeric',
-							month: 'long',
-							day: 'numeric',
-						})}
-					</time>
-				</p>
-				<ul class="tags">
-					{project.data.tags.map((tag) => (
-						<li>{tag}</li>
-					))}
-				</ul>
 			</header>
-			{project.data.media && (
-				<section class="media">
-					<h2>Demo</h2>
-					<figure>
-						{project.data.media.type === 'image' ? (
-							<img
-								src={resolveMediaSrc(project.data.media.src)}
-								alt={project.data.media.alt ?? project.data.title}
-								loading="lazy"
-							/>
-						) : (
-							<video controls preload="metadata" src={resolveMediaSrc(project.data.media.src)}>
-								Your browser does not support the video tag.
-							</video>
-						)}
-						{project.data.media.caption && (
-							<figcaption>{project.data.media.caption}</figcaption>
-						)}
-					</figure>
-				</section>
-			)}
-			<div class="prose">
-				<Content />
+			<div class="detail-body wrap">
+				{project.data.media && (
+					<section class="media">
+						<h2>Demo</h2>
+						<figure>
+							{project.data.media.type === 'image' ? (
+								<img
+									src={resolveMediaSrc(project.data.media.src)}
+									alt={project.data.media.alt ?? project.data.title}
+									loading="lazy"
+								/>
+							) : (
+								<video controls preload="metadata" src={resolveMediaSrc(project.data.media.src)}>
+									Your browser does not support the video tag.
+								</video>
+							)}
+							{project.data.media.caption && (
+								<figcaption>{project.data.media.caption}</figcaption>
+							)}
+						</figure>
+					</section>
+				)}
+				<div class="prose">
+					<Content />
+				</div>
 			</div>
 		</article>
 	</main>

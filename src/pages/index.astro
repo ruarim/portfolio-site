@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import ModularWordmark from '../components/ModularWordmark.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Layout from '../layouts/Layout.astro';
 
@@ -17,72 +18,93 @@ const professionalProjects = projects.filter(
 const personalProjects = projects.filter((project) => project.data.category === 'personal');
 ---
 
-<Layout title="Portfolio" description="Selected projects and case studies.">
+<Layout
+	title="Ruari Molyneux — Portfolio"
+	description="Selected projects and case studies by Ruari Molyneux, a software engineer specialising in audio applications."
+>
 	<main>
 		<header class="hero">
-			<p class="eyebrow">Portfolio</p>
-			<h1>Hello, I'm Ruari Molyneux</h1>
-			<p>
-				A Software Engineer specialising in audio applications. I build tools in close collaboration with the people who use them, from journalists to hard-of-hearing users. 
-				Here you will find a selection of my work.
-			</p>
+			<div class="hero-inner">
+				<h1 class="hero-title">
+					<span class="sr-only">Ruari Molyneux</span>
+					<ModularWordmark text={'ruari\nmolyneux'} class="hero-wordmark" />
+				</h1>
+				<p class="hero-lede">
+					A software engineer specialising in audio applications. I build tools in close
+					collaboration with the people who use them, from journalists to hard-of-hearing users.
+					Here you will find a selection of my work.
+				</p>
+			</div>
 		</header>
-		<section aria-labelledby="work-heading">
-			<div class="work-header">
-				<h2 class="section-title" id="work-heading">Selected Work</h2>
-				<div class="tabs" role="tablist" aria-label="Project categories">
-					<button
-						class="tab"
-						id="tab-professional"
-						role="tab"
-						aria-selected="true"
-						aria-controls="panel-professional"
-						tabindex="0"
-					>
-						Professional
-					</button>
-					<button
-						class="tab"
-						id="tab-personal"
-						role="tab"
-						aria-selected="false"
-						aria-controls="panel-personal"
-						tabindex="-1"
-					>
-						Personal
-					</button>
-				</div>
-			</div>
-			<div
-				class="tab-panel"
-				id="panel-professional"
-				role="tabpanel"
-				aria-labelledby="tab-professional"
-				tabindex="0"
-			>
-				{professionalProjects.map((project) => <ProjectCard project={project} />)}
-			</div>
-			<div
-				class="tab-panel"
-				id="panel-personal"
-				role="tabpanel"
-				aria-labelledby="tab-personal"
-				tabindex="0"
-				hidden
-			>
-				{personalProjects.map((project) => <ProjectCard project={project} />)}
-			</div>
-			<noscript>
-				<style>
-					[role='tablist'] {
-						display: none;
-					}
 
-					[role='tabpanel'][hidden] {
-						display: block;
-					}
-				</style>
-			</noscript>
+		<section class="work" aria-labelledby="work-heading">
+			<div class="wrap">
+				<div class="work-head">
+					<div class="section-brand">
+						<p class="micro work-label">01 / Selected work</p>
+						<h2 class="section-title" id="work-heading">
+							<span class="sr-only">Selected work</span>
+							<ModularWordmark text="work" class="section-wordmark" />
+						</h2>
+					</div>
+					<div class="tabs" role="tablist" aria-label="Project categories">
+						<button
+							class="tab"
+							id="tab-professional"
+							role="tab"
+							aria-selected="true"
+							aria-controls="panel-professional"
+							tabindex="0"
+						>
+							<span class="tab-index" aria-hidden="true">01</span> Professional
+						</button>
+						<button
+							class="tab"
+							id="tab-personal"
+							role="tab"
+							aria-selected="false"
+							aria-controls="panel-personal"
+							tabindex="-1"
+						>
+							<span class="tab-index" aria-hidden="true">02</span> Personal
+						</button>
+					</div>
+				</div>
+				<div
+					class="tab-panel"
+					id="panel-professional"
+					role="tabpanel"
+					aria-labelledby="tab-professional"
+					tabindex="0"
+				>
+					{professionalProjects.map((project, index) => (
+						<ProjectCard project={project} index={index + 1} />
+					))}
+				</div>
+				<div
+					class="tab-panel"
+					id="panel-personal"
+					role="tabpanel"
+					aria-labelledby="tab-personal"
+					tabindex="0"
+					hidden
+				>
+					{personalProjects.map((project, index) => (
+						<ProjectCard project={project} index={index + 1} />
+					))}
+				</div>
+				<noscript>
+					<style>
+						[role='tablist'] {
+							display: none;
+						}
+
+						[role='tabpanel'][hidden] {
+							display: block;
+						}
+					</style>
+				</noscript>
+			</div>
 		</section>
 	</main>
 </Layout>

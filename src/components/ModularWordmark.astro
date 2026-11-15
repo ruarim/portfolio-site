@@ -1,0 +1,45 @@
+---
+import { layoutWordmark } from '../lib/modular-type';
+
+interface Props {
+	text: string;
+	class?: string;
+	gap?: number;
+	radius?: number;
+}
+
+const { text, class: className, gap = 0.1, radius = 0.16 } = Astro.props;
+
+const { width, height, modules } = layoutWordmark(text);
+
+const cell = 10;
+const inset = (cell * gap) / 2;
+const moduleSize = cell - cell * gap;
+const corner = cell * radius;
+const viewWidth = Math.max(1, width * cell);
+const viewHeight = Math.max(1, height * cell);
+---
+
+<svg
+	class={className}
+	viewBox={`0 0 ${viewWidth} ${viewHeight}`}
+	preserveAspectRatio="xMinYMin meet"
+	role="img"
+	aria-hidden="true"
+	focusable="false"
+	xmlns="http://www.w3.org/2000/svg"
+>
+	{
+		modules.map((module) => (
+			<rect
+				x={module.x * cell + inset}
+				y={module.y * cell + inset}
+				width={moduleSize}
+				height={moduleSize}
+				rx={corner}
+				ry={corner}
+				fill="currentColor"
+			/>
+		))
+	}
+</svg>

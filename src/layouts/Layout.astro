@@ -19,9 +19,17 @@ const {
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
+		<meta name="theme-color" content="#0b0b0b" />
 		<title>{title}</title>
 	</head>
 	<body>
 		<slot />
+		<footer class="site-footer">
+			<div class="wrap">
+				<span class="micro">R. Molyneux / Portfolio</span>
+				<span class="micro">Software engineer — audio</span>
+				<span class="micro">MMXXVI</span>
+			</div>
+		</footer>
 	</body>
 </html>

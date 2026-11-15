@@ -5,12 +5,19 @@ import { withBase } from '../lib/paths';
 
 interface Props {
 	project: CollectionEntry<'projects'>;
+	index?: number;
 }
 
-const { project } = Astro.props;
+const { project, index } = Astro.props;
+const order = String(index ?? 0).padStart(2, '0');
+const date = project.data.date.toISOString().slice(0, 7).replace('-', '.');
 ---
 
 <article class:list={['project', { featured: project.data.featured }]}>
+	<div class="project-top">
+		<span class="project-index" aria-hidden="true">No. {order}</span>
+		<time class="project-date" datetime={project.data.date.toISOString()}>{date}</time>
+	</div>
 	<div class="title-row">
 		<h2>
 			<a href={withBase(`/projects/${project.id}/`)}>{project.data.title}</a>
@@ -19,16 +26,7 @@ const { project } = Astro.props;
 			<GitHubLink href={project.data.githubUrl} label={project.data.title} />
 		)}
 	</div>
-	<p>{project.data.description}</p>
-	<p class="meta">
-		<time datetime={project.data.date.toISOString()}>
-			{project.data.date.toLocaleDateString('en', {
-				year: 'numeric',
-				month: 'long',
-				day: 'numeric',
-			})}
-		</time>
-	</p>
+	<p class="project-desc">{project.data.description}</p>
 	<ul class="tags">
 		{project.data.tags.map((tag) => (
 			<li>{tag}</li>

@@ -39,6 +39,12 @@ const { href, label } = Astro.props;
 		color: var(--white);
 	}
 
+	:global(.project.featured) .github-link:hover,
+	:global(.project-header) .github-link:hover {
+		background: var(--white);
+		color: var(--black);
+	}
+
 	.github-link svg {
 		width: 1.25rem;
 		height: 1.25rem;
