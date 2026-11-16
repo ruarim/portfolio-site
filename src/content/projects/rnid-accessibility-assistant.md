@@ -5,6 +5,12 @@ tags: ["TypeScript", "React", "Node.js", "Zoom", "AI", "GCP"]
 category: professional
 featured: true
 date: 2026-01-01
+media:
+  type: image
+  src: /src/media/rnid-data-flow.png
+  alt: Data flow diagram
+  caption: Data flow from Zoom service to UI alert.
+
 ---
 
 ## Project Overview
