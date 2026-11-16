@@ -1,6 +1,6 @@
 ---
 title: "Allpass FDN Reverb"
-description: "A stereo algorithmic reverb plugin built from scratch in C++ and JUCE, combining a Hadamard feedback delay network with Schroeder allpass diffusion."
+description: "A stereo algorithmic reverb plugin built in C++ and JUCE, combining a Hadamard feedback delay network with Schroeder allpass diffusion."
 tags: ["C++", "JUCE", "DSP", "VST3", "Audio Plugin", "Real-time audio"]
 category: personal
 featured: false

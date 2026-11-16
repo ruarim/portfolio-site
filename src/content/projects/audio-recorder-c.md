@@ -10,7 +10,7 @@ githubUrl: https://github.com/ruarim/audio-recorder-c
 
 ## Project Overview
 
-A compact macOS recorder built on Apple's AudioToolbox and CoreAudio frameworks, with no third-party libraries. It captures microphone input through an AudioQueue and writes WAV audio, all behind a small opaque C API.
+A compact macOS recorder built on Apple's AudioToolbox and CoreAudio frameworks, with no third-party libraries. It captures microphone input through an AudioQueue and writes WAV audio to a file, all behind an opaque C API.
 
 ## Technical Highlights
 

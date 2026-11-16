@@ -20,7 +20,7 @@ const date = project.data.date.toISOString().slice(0, 7).replace('-', '.');
 	</div>
 	<div class="title-row">
 		<h2>
-			<a href={withBase(`/projects/${project.id}/`)}>{project.data.title}</a>
+			<a href={withBase(`/projects/${project.id}/`)} style="text-decoration: none;">{project.data.title}</a>
 		</h2>
 		{project.data.githubUrl && (
 			<GitHubLink href={project.data.githubUrl} label={project.data.title} />
