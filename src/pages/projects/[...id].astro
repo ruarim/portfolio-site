@@ -21,6 +21,17 @@ interface Props {
 const { project } = Astro.props;
 const { Content } = await render(project);
 const date = project.data.date.toISOString().slice(0, 7).replace('-', '.');
+
+function getYouTubeId(url: string) {
+	const match = url.match(
+		/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/,
+	);
+
+	return match?.[1] ?? null;
+}
+
+const media = project.data.media;
+const youtubeId = media?.type === 'video' ? getYouTubeId(media.src) : null;
 ---
 
 <Layout title={`${project.data.title} | Portfolio`} description={project.data.description}>
@@ -47,24 +58,29 @@ const date = project.data.date.toISOString().slice(0, 7).replace('-', '.');
 				</div>
 			</header>
 			<div class="detail-body wrap">
-				{project.data.media && (
+				{media && (
 					<section class="media">
-						<h2>Demo</h2>
 						<figure>
-							{project.data.media.type === 'image' ? (
+							{media.type === 'image' ? (
 								<img
-									src={resolveMediaSrc(project.data.media.src)}
-									alt={project.data.media.alt ?? project.data.title}
+									src={resolveMediaSrc(media.src)}
+									alt={media.alt ?? project.data.title}
 									loading="lazy"
 								/>
+							) : youtubeId ? (
+								<iframe
+									src={`https://www.youtube-nocookie.com/embed/${youtubeId}`}
+									title={media.alt ?? project.data.title}
+									loading="lazy"
+									allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+									allowfullscreen
+								/>
 							) : (
-								<video controls preload="metadata" src={resolveMediaSrc(project.data.media.src)}>
+								<video controls preload="metadata" src={resolveMediaSrc(media.src)}>
 									Your browser does not support the video tag.
 								</video>
 							)}
-							{project.data.media.caption && (
-								<figcaption>{project.data.media.caption}</figcaption>
-							)}
+							{media.caption && <figcaption>{media.caption}</figcaption>}
 						</figure>
 					</section>
 				)}
