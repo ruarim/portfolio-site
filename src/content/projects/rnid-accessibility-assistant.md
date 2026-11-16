@@ -7,7 +7,7 @@ featured: true
 date: 2026-01-01
 media:
   type: image
-  src: /src/media/rnid-data-flow.png
+  src: https://github.com/ruarim/portfolio-site/blob/main/src/media/rnid-data-flow.png
   alt: Data flow diagram
   caption: Data flow from Zoom service to UI alert.
 
